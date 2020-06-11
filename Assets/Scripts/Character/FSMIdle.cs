@@ -24,20 +24,16 @@ public class FSMIdle : FSMState
         // 공격키 누름
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            EndState();
-            anim.SetBool("Attack", true);
             Manager.SetState(State.Attack);
         }
         // 구르기를 누름
         else if (Input.GetKeyDown(KeyCode.X))
         {
-            EndState();
             anim.SetBool("Roll", true);
         }
         // 방향키 누름
         else if (dir.x != 0f || dir.z != 0f)
         {
-            EndState();
             anim.SetBool("Run", true);
             Manager.SetState(State.Run);
         }

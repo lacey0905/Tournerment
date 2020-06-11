@@ -36,6 +36,7 @@ public class FSMManager : MonoBehaviour
 
     public void SetState(State newState)
     {
+        StateDic[(int)currentState].EndState();
         StateDic[(int)currentState].enabled = false;
         StateDic[(int)newState].enabled = true;
         StateDic[(int)newState].BeginState();
