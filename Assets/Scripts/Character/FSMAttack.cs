@@ -8,60 +8,53 @@ public class FSMAttack : FSMState
     {
         base.BeginState();
         anim.SetBool("Attack", true);
-        continueCount = 0;
-        isContinue = false;
-        Debug.Log("공격");
     }
 
     public override void EndState()
     {
         base.EndState();
         anim.SetBool("Attack", false);
-        Debug.Log("공격 종료");
+        anim.SetBool("AttackContinue", false);
+        currentTimer = 0f;
+        isContinue = false;
     }
+
+    private float continueTimer = 1.0f;
+    private float currentTimer = 0f;
+
+    private bool isContinue = false;
 
     private void Update()
     {
-        if(continueCount < 2)
+
+        if(currentTimer < continueTimer)
         {
+            currentTimer += Time.deltaTime;
+
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 isContinue = true;
+                anim.SetBool("AttackContinue", true);
             }
         }
-    }
-
-    [SerializeField]
-    int continueCount = 0;
-    [SerializeField]
-    bool isContinue = false;
-
-    public void BeginAnimation()
-    {
-        isContinue = false;
-        continueCount++;
-    }
-
-    public void EndAnimation()
-    {
-
-        if(!isContinue)
+        else
         {
-            // 방향키 입력 감지
-            Vector3 dir = Manager.MoveDirection();
-            // 방향키 안 누름
-            if (dir.x == 0f && dir.z == 0f)
+            if (!isContinue)
             {
-                Manager.SetState(State.Idle);
-            }
-            // 방향키 누름
-            else
-            {
-                Manager.SetState(State.Run);
+                // 방향키 입력 감지
+                Vector3 dir = Manager.MoveDirection();
+                // 방향키 안 누름
+                if (dir.x == 0f && dir.z == 0f)
+                {
+                    Manager.SetState(State.Idle);
+                }
+                // 방향키 누름
+                else
+                {
+                    Manager.SetState(State.Run);
+                }
             }
         }
-
-        anim.SetBool("AttackContinue", isContinue);
     }
 
 }
