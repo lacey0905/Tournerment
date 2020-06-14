@@ -7,91 +7,140 @@ public class CharacterController : MonoBehaviour
 
     Animator anim;
 
-    List<float> time = new List<float>();
-    bool isATK = false;
-    float timer = 0f;
-    int step = 0;
+    bool isKeyOn = false;
+
     [SerializeField]
-    bool isCon = false;
+    bool comboOK = false;
+
+    bool atk1 = true;
+    bool atk2 = false;
+    bool atk3 = false;
+    bool atk4 = false;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
     }
-
-    private void Start()
-    {
-        time.Add(1.0f);
-        time.Add(2.0f);
-    }
-
+    
     private void Update()
     {
 
-        // 공격 버튼 클릭
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            if(!isATK)
+            if(atk1 == true)
             {
-                isATK = true;
-                anim.SetTrigger("con");
-            }
-            else
-            {
-                if (timer >= time[step])
+                if(isKeyOn)
                 {
-
+                    isKeyOn = false;
+                    atk1 = false;
+                    comboOK = true;
                 }
                 else
                 {
-                    if (step >= time.Count - 1)
-                    {
-
-                    }
-                    else
-                    {
-                        if (!isCon)
-                        {
-                            anim.SetTrigger("con");
-                            isCon = true;
-                        }
-                    }
+                    anim.SetBool("atk1", true);
                 }
             }
-        }
-
-        // 공격 상태일때는 타이머 작동
-        if (isATK)
-        {
-            timer += Time.deltaTime;
-            if (timer >= time[step])
+            else if (atk2 == true)
             {
-                if (step >= time.Count-1)
+                if(isKeyOn)
                 {
-                    anim.SetTrigger("GoIdle");
-                    timer = 0f;
-                    step = 0;
-                    isATK = false;
+                    isKeyOn = false;
+                    atk2 = false;
+                    comboOK = true;
                 }
-                else
+            }
+            else if (atk3 == true)
+            {
+                if (isKeyOn)
                 {
-                    if(isCon)
-                    {
-                        step++;
-                        isCon = false;
-                    }
-                    else
-                    {
-                        anim.SetTrigger("GoIdle");
-                        timer = 0f;
-                        step = 0;
-                        isATK = false;
-                    }
+                    isKeyOn = false;
+                    atk3 = false;
+                    comboOK = true;
                 }
+            }
+            else if (atk4 == true)
+            {
+                
             }
         }
 
     }
+    
+    public void StartIdle()
+    {
+        isKeyOn = false;
+        comboOK = false;
+        atk1 = true;
+        atk2 = false;
+        atk3 = false;
+        atk4 = false;
+    }
 
+    public void StartATK1()
+    {
+        isKeyOn = true;
+    }
+    public void EndATK1()
+    {
+        if(comboOK)
+        {
+            anim.SetBool("atk2", true);
+        }
+        else
+        {
+            anim.SetBool("atk1", false);
+        }
+    }
+
+    public void StartATK2()
+    {
+        isKeyOn = true;
+        atk2 = true;
+        comboOK = false;
+    }
+    public void EndATK2()
+    {
+        if (comboOK)
+        {
+            anim.SetBool("atk3", true);
+        }
+        else
+        {
+            anim.SetBool("atk1", false);
+            anim.SetBool("atk2", false);
+        }
+    }
+
+    public void StartATK3()
+    {
+        isKeyOn = true;
+        atk3 = true;
+        comboOK = false;
+    }
+    public void EndATK3()
+    {
+        if (comboOK)
+        {
+            anim.SetBool("atk4", true);
+        }
+        else
+        {
+            anim.SetBool("atk1", false);
+            anim.SetBool("atk2", false);
+            anim.SetBool("atk3", false);
+        }
+    }
+
+    public void StartATK4()
+    {
+
+    }
+    public void EndATK4()
+    {
+        anim.SetBool("atk1", false);
+        anim.SetBool("atk2", false);
+        anim.SetBool("atk3", false);
+        anim.SetBool("atk4", false);
+    }
 
 }
