@@ -5,73 +5,93 @@ using UnityEngine;
 public class CharacterController : MonoBehaviour
 {
 
-    CharacterMovement movement;
-    CharacterAnimation animator;
-    
-    public enum State
-    {
-        Idle,
-        Run,
-        Roll,
-        Attack
-    }
+    Animator anim;
 
+    List<float> time = new List<float>();
+    bool isATK = false;
+    float timer = 0f;
+    int step = 0;
     [SerializeField]
-    State state;
-
-    float h, v;
+    bool isCon = false;
 
     private void Awake()
     {
-        animator = GetComponent<CharacterAnimation>(); 
-        movement = GetComponent<CharacterMovement>();
+        anim = GetComponent<Animator>();
+    }
+
+    private void Start()
+    {
+        time.Add(1.0f);
+        time.Add(2.0f);
     }
 
     private void Update()
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
 
-        // 방향키 입력이 있는가
-        bool isControl = h != 0 || v != 0;
-        // 공격 버튼을 눌렀는가
-        bool isAtk = Input.GetKeyDown(KeyCode.Z);
-        // 회피 버튼을 눌렀는가
-        bool isRoll = Input.GetKeyDown(KeyCode.X);
+        // 공격 버튼 클릭
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            if(!isATK)
+            {
+                isATK = true;
+                anim.SetTrigger("con");
+            }
+            else
+            {
+                if (timer >= time[step])
+                {
 
+                }
+                else
+                {
+                    if (step >= time.Count - 1)
+                    {
 
-        // 회피 버튼을 누르면 무조건
-        if(isRoll)
-        {
-            state = State.Roll;
-        }
-        // 회피 버튼 안 누르고 공격이 눌렸으면
-        else if(!isRoll && isAtk)
-        {
-            state = State.Attack;
-        }
-        // 회피도 없고 공격도 없는데 방향키는 눌렀으면
-        else if(!isRoll && !isAtk && isControl)
-        {
-            state = State.Run;
-        }
-        // 걍 이도 저도 아닐 때
-        else
-        {
-            state = State.Idle;
+                    }
+                    else
+                    {
+                        if (!isCon)
+                        {
+                            anim.SetTrigger("con");
+                            isCon = true;
+                        }
+                    }
+                }
+            }
         }
 
+        // 공격 상태일때는 타이머 작동
+        if (isATK)
+        {
+            timer += Time.deltaTime;
+            if (timer >= time[step])
+            {
+                if (step >= time.Count-1)
+                {
+                    anim.SetTrigger("GoIdle");
+                    timer = 0f;
+                    step = 0;
+                    isATK = false;
+                }
+                else
+                {
+                    if(isCon)
+                    {
+                        step++;
+                        isCon = false;
+                    }
+                    else
+                    {
+                        anim.SetTrigger("GoIdle");
+                        timer = 0f;
+                        step = 0;
+                        isATK = false;
+                    }
+                }
+            }
+        }
 
     }
 
-    private void FixedUpdate()
-    {
-        
-    }
-
-    private Vector3 GetDirection(float h, float v)
-    {
-        return new Vector3(h, 0f, v);
-    }
 
 }

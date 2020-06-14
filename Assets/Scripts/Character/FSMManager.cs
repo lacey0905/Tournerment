@@ -17,6 +17,7 @@ public class FSMManager : MonoBehaviour
 
     Dictionary<int, FSMState> StateDic = new Dictionary<int, FSMState>();
 
+
     private void Awake()
     {
         StateDic.Add(0, GetComponent<FSMIdle>());
@@ -31,15 +32,13 @@ public class FSMManager : MonoBehaviour
 
     private void Update()
     {
-       
+
     }
 
     public void SetState(State newState)
     {
-        StateDic[(int)currentState].EndState();
         StateDic[(int)currentState].enabled = false;
         StateDic[(int)newState].enabled = true;
-        StateDic[(int)newState].BeginState();
         currentState = newState;
     }
 
