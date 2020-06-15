@@ -5,9 +5,7 @@ using UnityEngine;
 public enum State
 {
     Idle = 0,
-    Run,
     Attack,
-    Roll
 }
 
 public class FSMManager : MonoBehaviour
@@ -15,18 +13,15 @@ public class FSMManager : MonoBehaviour
 
     public State currentState;
 
-    Dictionary<int, FSMState> StateDic = new Dictionary<int, FSMState>();
-
+    public List<FSMState> stateList = new List<FSMState>();
+    Dictionary<int, FSMState> stateDic = new Dictionary<int, FSMState>();
 
     private void Awake()
     {
-        StateDic.Add(0, GetComponent<FSMIdle>());
-        StateDic.Add(1, GetComponent<FSMRun>());
-        StateDic.Add(2, GetComponent<FSMAttack>());
-    }
-
-    private void Start()
-    {
+        for(int i=0; i < stateList.Count; i++)
+        {
+            stateDic.Add(i, stateList[i]);
+        }
         SetState(State.Idle);
     }
 
@@ -37,17 +32,9 @@ public class FSMManager : MonoBehaviour
 
     public void SetState(State newState)
     {
-        StateDic[(int)currentState].enabled = false;
-        StateDic[(int)newState].enabled = true;
+        stateDic[(int)currentState].enabled = false;
+        stateDic[(int)newState].enabled = true;
         currentState = newState;
     }
-
-    public Vector3 MoveDirection()
-    {
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
-        return new Vector3(h, 0f, v);
-    }
-
 
 }

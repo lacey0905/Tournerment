@@ -78,6 +78,7 @@ public class CharacterController : MonoBehaviour
 
     public void StartATK1()
     {
+        
         isKeyOn = true;
     }
     public void EndATK1()

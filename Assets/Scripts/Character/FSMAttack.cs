@@ -8,48 +8,138 @@ public class FSMAttack : FSMState
     private void OnEnable()
     {
         anim.SetBool("Attack", true);
-        isAtk = false;
+        anim.SetBool("atk1", true);
     }
 
     private void OnDisable()
     {
-        combo = 0;
         anim.SetBool("Attack", false);
     }
 
-    [SerializeField]
-    bool isAtk = false;
-
-    int combo = 0;
-
-    private void Update()
+    public void ATK1()
     {
-        if(!isAtk)
+        StartCoroutine(Attack1());
+    }
+
+    public void ATK2()
+    {
+        StartCoroutine(Attack2());
+    }
+
+    public void ATK3()
+    {
+        StartCoroutine(Attack3());
+    }
+
+    public void ATK4()
+    {
+        StartCoroutine(Attack4());
+    }
+
+    IEnumerator Attack1()
+    {
+        bool reserve = false;
+        bool isLoop = true;
+        float timer = 0f;
+        while(isLoop)
         {
+            timer += Time.deltaTime;
             if(Input.GetKeyDown(KeyCode.Z))
             {
-                combo++;
-                anim.SetInteger("Combo", combo);
-                isAtk = true;
+                reserve = true;
             }
+            else if(reserve && timer > 0.5f)
+            {
+                isLoop = false;
+                reserve = false;
+                anim.SetBool("atk2", true);
+            }
+            else if(timer > 1.0f)
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                Manager.SetState(State.Idle);
+            }
+            yield return null;
         }
     }
 
-    public void ResetCheck()
+    IEnumerator Attack2()
     {
-        isAtk = false;
+        bool reserve = false;
+        bool isLoop = true;
+        float timer = 0f;
+        while (isLoop)
+        {
+            timer += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                reserve = true;
+            }
+            else if (reserve && timer > 0.5f)
+            {
+                isLoop = false;
+                reserve = false;
+                anim.SetBool("atk3", true);
+            }
+            else if (timer > 1.0f)
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                Manager.SetState(State.Idle);
+            }
+            yield return null;
+        }
     }
 
-    public void EndCheck()
+    IEnumerator Attack3()
     {
-        if(!isAtk)
+        bool reserve = false;
+        bool isLoop = true;
+        float timer = 0f;
+        while (isLoop)
         {
-            isAtk = true;
-            Manager.SetState(State.Idle);
+            timer += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                reserve = true;
+            }
+            else if (reserve && timer > 0.5f)
+            {
+                isLoop = false;
+                reserve = false;
+                anim.SetBool("atk4", true);
+            }
+            else if (timer > 1.0f)
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                anim.SetBool("atk3", false);
+                Manager.SetState(State.Idle);
+            }
+            yield return null;
         }
-        else
+    }
+
+    IEnumerator Attack4()
+    {
+        bool isLoop = true;
+        float timer = 0f;
+        while (isLoop)
         {
-            isAtk = false; 
+            timer += Time.deltaTime;
+            if (timer > 1.0f)
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                anim.SetBool("atk3", false);
+                anim.SetBool("atk4", false);
+                Manager.SetState(State.Idle);
+            }
+            yield return null;
         }
     }
 
