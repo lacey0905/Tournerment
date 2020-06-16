@@ -5,7 +5,9 @@ using UnityEngine;
 public enum State
 {
     Idle = 0,
+    Run,
     Attack,
+    Evade,
 }
 
 public class FSMManager : MonoBehaviour
@@ -35,6 +37,13 @@ public class FSMManager : MonoBehaviour
         stateDic[(int)currentState].enabled = false;
         stateDic[(int)newState].enabled = true;
         currentState = newState;
+    }
+
+    public Vector3 MoveDirection()
+    {
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        return new Vector3(h, 0f, v);
     }
 
 }

@@ -4,19 +4,32 @@ using UnityEngine;
 
 public class FSMRun : FSMState
 {
-    public override void BeginState()
+    private void OnEnable()
     {
-        base.BeginState();
+        anim.SetBool("Run", true);
     }
 
-    public override void EndState()
+    private void OnDisable()
     {
-        base.EndState();
+        anim.SetBool("Run", false);
     }
 
     private void Update()
     {
-     
+        Vector3 dir = Manager.MoveDirection();
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            Manager.SetState(State.Evade);
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Manager.SetState(State.Attack);
+        }
+        else if (dir.x == 0f && dir.z == 0f)
+        {
+            Manager.SetState(State.Idle);
+        }
     }
 
 }

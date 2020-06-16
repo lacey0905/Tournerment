@@ -36,6 +36,24 @@ public class FSMAttack : FSMState
         StartCoroutine(Attack4());
     }
 
+    public void CheckRun()
+    {
+        Vector3 dir = Manager.MoveDirection();
+        if (dir.x != 0f || dir.z != 0f)
+        {
+            Manager.SetState(State.Run);
+        }
+        else
+        {
+            Manager.SetState(State.Idle);
+        }
+    }
+
+    public void GoEvade()
+    {
+        Manager.SetState(State.Evade);
+    }
+
     IEnumerator Attack1()
     {
         bool reserve = false;
@@ -44,7 +62,13 @@ public class FSMAttack : FSMState
         while(isLoop)
         {
             timer += Time.deltaTime;
-            if(Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                GoEvade();
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
             {
                 reserve = true;
             }
@@ -58,7 +82,7 @@ public class FSMAttack : FSMState
             {
                 isLoop = false;
                 anim.SetBool("atk1", false);
-                Manager.SetState(State.Idle);
+                CheckRun();
             }
             yield return null;
         }
@@ -72,7 +96,14 @@ public class FSMAttack : FSMState
         while (isLoop)
         {
             timer += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                GoEvade();
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
             {
                 reserve = true;
             }
@@ -87,7 +118,7 @@ public class FSMAttack : FSMState
                 isLoop = false;
                 anim.SetBool("atk1", false);
                 anim.SetBool("atk2", false);
-                Manager.SetState(State.Idle);
+                CheckRun();
             }
             yield return null;
         }
@@ -101,7 +132,15 @@ public class FSMAttack : FSMState
         while (isLoop)
         {
             timer += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                isLoop = false;
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                anim.SetBool("atk3", false);
+                GoEvade();
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
             {
                 reserve = true;
             }
@@ -117,7 +156,7 @@ public class FSMAttack : FSMState
                 anim.SetBool("atk1", false);
                 anim.SetBool("atk2", false);
                 anim.SetBool("atk3", false);
-                Manager.SetState(State.Idle);
+                CheckRun();
             }
             yield return null;
         }
@@ -130,14 +169,23 @@ public class FSMAttack : FSMState
         while (isLoop)
         {
             timer += Time.deltaTime;
-            if (timer > 1.0f)
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                anim.SetBool("atk1", false);
+                anim.SetBool("atk2", false);
+                anim.SetBool("atk3", false);
+                anim.SetBool("atk4", false);
+                isLoop = false;
+                GoEvade();
+            }
+            else if (timer > 1.0f)
             {
                 isLoop = false;
                 anim.SetBool("atk1", false);
                 anim.SetBool("atk2", false);
                 anim.SetBool("atk3", false);
                 anim.SetBool("atk4", false);
-                Manager.SetState(State.Idle);
+                CheckRun();
             }
             yield return null;
         }

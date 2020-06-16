@@ -17,9 +17,20 @@ public class FSMIdle : FSMState
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+
+        Vector3 dir = Manager.MoveDirection();
+
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            Manager.SetState(State.Evade);
+        }
+        else if (Input.GetKeyDown(KeyCode.Z))
         {
             Manager.SetState(State.Attack);
+        }
+        else if(dir.x != 0f || dir.z != 0f)
+        {
+            Manager.SetState(State.Run);
         }
     }
 
