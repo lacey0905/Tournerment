@@ -15,10 +15,12 @@ public class FSMState : MonoBehaviour
     }
 
     protected Animator anim;
+    protected Rigidbody rigidbody;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
+        rigidbody = GetComponent<Rigidbody>();
         _manager = GetComponent<FSMManager>();
     }
 

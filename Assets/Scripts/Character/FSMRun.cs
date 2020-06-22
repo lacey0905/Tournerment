@@ -14,7 +14,10 @@ public class FSMRun : FSMState
         anim.SetBool("Run", false);
     }
 
-    private void Update()
+    public float moveSpeed;
+    public float turnSpeed;
+
+    private void FixedUpdate()
     {
         Vector3 dir = Manager.MoveDirection();
 
@@ -26,10 +29,27 @@ public class FSMRun : FSMState
         {
             Manager.SetState(State.Attack);
         }
+        else if(dir.x != 0f || dir.z != 0f)
+        {
+            Vector3 movement = dir.normalized * moveSpeed * Time.deltaTime;
+            Move(movement);
+            Turn(movement);
+        }
         else if (dir.x == 0f && dir.z == 0f)
         {
             Manager.SetState(State.Idle);
         }
+    }
+
+    private void Move(Vector3 movement)
+    {
+        rigidbody.MovePosition(transform.position + movement);
+    }
+
+    private void Turn(Vector3 movement) 
+    {
+        Quaternion newRot = Quaternion.LookRotation(movement);
+        rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, newRot, turnSpeed * Time.deltaTime);
     }
 
 }

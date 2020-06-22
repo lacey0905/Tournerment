@@ -16,6 +16,13 @@ public class FSMAttack : FSMState
         anim.SetBool("Attack", false);
     }
 
+    public GameObject slash;
+
+    public void ShowSlash()
+    {
+        slash.SetActive(true);
+    }
+
     public void ATK1()
     {
         StartCoroutine(Attack1());

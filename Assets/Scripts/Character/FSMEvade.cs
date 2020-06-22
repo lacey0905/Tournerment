@@ -14,11 +14,15 @@ public class FSMEvade : FSMState
 
     }
 
+    public float moveSpeed;
+
     public void Eavde()
     {
+        Vector3 dir = Manager.MoveDirection();
+        Vector3 movement = dir.normalized * moveSpeed * Time.deltaTime;
+        Turn(movement);
         StartCoroutine(PlayEvade());
     }
-
 
     IEnumerator PlayEvade()
     {
@@ -27,4 +31,9 @@ public class FSMEvade : FSMState
         Manager.SetState(State.Idle);
     }
 
+    private void Turn(Vector3 movement)
+    {
+        Quaternion newRot = Quaternion.LookRotation(movement);
+        transform.rotation = newRot;
+    }
 }

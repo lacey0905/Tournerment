@@ -13,7 +13,6 @@ public class CharacterAnimation : MonoBehaviour
     {
         anim = GetComponent<Animator>();
     }
-
     public void ChangeAnimState(int state)
     {
         switch (state)
