@@ -48,8 +48,17 @@ public class FSMRun : FSMState
 
     private void Turn(Vector3 movement) 
     {
-        Quaternion newRot = Quaternion.LookRotation(movement);
-        rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, newRot, turnSpeed * Time.deltaTime);
+        float rotDir;
+
+        //if()
+
+        //float left = Input.GetKeyDown(KeyCode.Q) ;
+        //Vector3 newDir = new Vector3(0f, , 0f);
+
+        //transform.Rotate(new Vector3())
+        //Vector3 dir = Manager.MoveDirection() * turnSpeed * Time.deltaTime;
+        //Quaternion newRot = Quaternion.LookRotation(dir);
+        //rigidbody.rotation = Quaternion.Slerp(rigidbody.rotation, newRot, turnSpeed * Time.deltaTime);
     }
 
 }
