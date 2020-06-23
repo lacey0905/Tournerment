@@ -9,18 +9,21 @@ public class FSMAttack : FSMState
     {
         anim.SetBool("Attack", true);
         anim.SetBool("atk1", true);
+        weapon.GetComponent<Sword>().OnSlash(true);
     }
 
     private void OnDisable()
     {
         anim.SetBool("Attack", false);
+        weapon.GetComponent<Sword>().OnSlash(false);
     }
 
-    public GameObject slash;
 
-    public void ShowSlash()
+    public GameObject weapon;
+ 
+    public void OnHit()
     {
-        slash.SetActive(true);
+        weapon.GetComponent<Sword>().Hit();
     }
 
     public void ATK1()
