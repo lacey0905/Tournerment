@@ -39,6 +39,7 @@ public class FSMRun : FSMState
         {
             Manager.SetState(State.Idle);
         }
+
     }
 
     private void Move(Vector3 movement)
