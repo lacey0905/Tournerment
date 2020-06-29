@@ -23,7 +23,12 @@ public class FSMAttack : FSMState
  
     public void OnHit()
     {
-        weapon.GetComponent<Sword>().Hit();
+        weapon.GetComponent<Sword>().HitOn();
+    }
+
+    public void OutHit()
+    {
+        weapon.GetComponent<Sword>().HitOut();
     }
 
     public void ATK1()

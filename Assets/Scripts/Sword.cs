@@ -11,24 +11,27 @@ public class Sword : MonoBehaviour
 
 	bool isOnHit = false;
 
-    private void FixedUpdate()
+	public BoxCollider col;
+
+	private void Awake()
+	{
+		col = GetComponent<BoxCollider>();
+		col.enabled = false;
+	}
+
+	private void FixedUpdate()
     {
 		
 	}
 
-	public void Hit()
+	public void HitOn()
 	{
-		RaycastHit[] hits = Physics.SphereCastAll(HitPoints.transform.position, radius, Vector3.up);
+		col.enabled = true;
+	}
 
-		foreach (RaycastHit hit in hits)
-		{
-			if(hit.transform.tag == "Test")
-			{
-				hit.transform.GetComponent<Enemy>().Damage(transform.position);
-				StartCoroutine(time());
-			}
-			
-		}
+	public void HitOut()
+	{
+		col.enabled = false;
 	}
 
 	IEnumerator time()
@@ -43,10 +46,14 @@ public class Sword : MonoBehaviour
 		slash.SetActive(state);
 	}
 
-	void OnDrawGizmos()
+	private void OnTriggerEnter(Collider other)
 	{
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(HitPoints.transform.position, radius);
+		if(other.transform.tag == "Test")
+		{
+			other.GetComponent<Enemy>().Damage(transform.position);
+			//StartCoroutine(time());
+		}
 	}
+
 
 }
