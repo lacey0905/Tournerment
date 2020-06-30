@@ -155,10 +155,10 @@ public class FSMAttack : FSMState
                 anim.SetBool("atk3", false);
                 GoEvade();
             }
-            else if (Input.GetKeyDown(KeyCode.Z))
-            {
-                reserve = true;
-            }
+            //else if (Input.GetKeyDown(KeyCode.Z))
+            //{
+            //    reserve = true;
+            //}
             else if (reserve && timer > 0.5f)
             {
                 isLoop = false;
